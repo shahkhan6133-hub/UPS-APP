@@ -358,7 +358,7 @@ body[data-theme="dark"] .uxsum span{background:#1E1B4B;color:#C4B5FD}
 </style>
 </head>
 <body>
-<div class="hdr"><div class="hi"><div class="hrow"><div class="hl" style="background:linear-gradient(135deg,#4ADE80,#22D3EE);color:#fff;font-size:20px;width:44px;height:44px;border-radius:14px;box-shadow:0 4px 12px rgba(74,222,128,.3)" id="schoolInitial">U</div><div><div class="ht" style="background:linear-gradient(90deg,#4ADE80,#22D3EE,#A78BFA);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:20px;font-weight:800;letter-spacing:-.5px" id="schoolTitle">Universal Public High School</div><div class="hs" id="hs" style="color:#6B7280;font-size:11px;font-weight:500">School Management System</div></div><button id="setBtn" type="button" onclick="openSettings()" style="margin-left:auto;background:#fff;border:1px solid #E5E7EB;border-radius:10px;padding:7px 11px;font-size:12px;font-weight:600;cursor:pointer;color:#374151">&#9881;&#65039; <span class="tlab">School Settings</span></button><span id="themeWrap" style="position:relative;margin-left:8px"><button id="themeBtn" type="button" onclick="toggleThemePop(event)">&#127912; <span class="tlab">Theme</span></button><div id="themePop"></div></span><button id="syncChip" type="button"></button><button id="installBtn" type="button">Install App</button></div><div class="tabs" id="tabs"></div></div></div>
+<div class="hdr"><div class="hi"><div class="hrow"><div class="hl" style="background:linear-gradient(135deg,#4ADE80,#22D3EE);color:#fff;font-size:20px;width:44px;height:44px;border-radius:14px;box-shadow:0 4px 12px rgba(74,222,128,.3)">U</div><div><div class="ht" style="background:linear-gradient(90deg,#4ADE80,#22D3EE,#A78BFA);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:20px;font-weight:800;letter-spacing:-.5px">Universal Public High School</div><div class="hs" id="hs" style="color:#6B7280;font-size:11px;font-weight:500">School Management System</div></div><span id="themeWrap" style="position:relative;margin-left:auto"><button id="themeBtn" type="button" onclick="toggleThemePop(event)">&#127912; <span class="tlab">Theme</span></button><div id="themePop"></div></span><button id="syncChip" type="button"></button><button id="installBtn" type="button">Install App</button></div><div class="tabs" id="tabs"></div></div></div>
 <div class="cont"><div id="page"></div></div>
 <div class="mo" id="mo" style="display:none" onclick="closem(event)"><div class="mc" id="mc" onclick="event.stopPropagation()"></div></div>
 <script>
@@ -1872,7 +1872,7 @@ function renderOverview(){
   // Bar chart
   h+='<div class="cr">';
   var gdist={},j;
-  for(i=0;i<sts.length;i++){var gv=s(sts[i].grade);var g=gv==='Nursery'?'Nur':gv==='KG'?'KG':gv==='LKG'?'LKG':gv==='UKG'?'UKG':(isNaN(Number(gv))?gv:'G'+gv);gdist[g]=(gdist[g]||0)+1}
+  for(i=0;i<sts.length;i++){var gv=s(sts[i].grade);var g=gv==='Nursery'?'Nur':gv==='KG'?'KG':gv==='LKG'?'LKG':gv==='UKG'?'UKG':'G'+gv;gdist[g]=(gdist[g]||0)+1}
   var gkeys=Object.keys(gdist).sort();
   var gmax=1;
   for(j=0;j<gkeys.length;j++)gmax=Math.max(gmax,gdist[gkeys[j]]);
@@ -1974,7 +1974,7 @@ function renderTable(){
     h+='<select class="fs" onchange="gf=this.value;filterTable()"><option value="all"'+(gf==='all'?' selected':'')+'>All Grades</option>';
     for(i=0;i<gs.length;i++){
       var gl=gs[i];
-      var gLabel=classLabel(gl);
+      var gLabel=gl==='Nursery'?'Nursery':gl==='LKG'?'LKG':gl==='UKG'?'UKG':gl==='KG'?'KG':'Grade '+gl;
       h+='<option value="'+gl+'"'+(gf===gl?' selected':'')+'>'+gLabel+'</option>';
     }
     h+='</select>';
@@ -2194,7 +2194,7 @@ function loadAttRecords(){
     var grp=groups[groupKeys[gk]];
     var dparts=grp.date.split('-');
     var dateLabel=mos[parseInt(dparts[1])-1]+' '+dparts[2]+', '+dparts[0];
-    var gradeLabel=classLabel(grp.grade);
+    var gradeLabel=grp.grade==='Nursery'?'Nursery':grp.grade==='LKG'?'LKG':grp.grade==='UKG'?'UKG':grp.grade==='KG'?'KG':'Grade '+grp.grade;
     
     h+='<div class="tw" style="margin-bottom:20px">';
     h+='<div style="padding:14px 16px;border-bottom:1px solid #F0F0F0;display:flex;justify-content:space-between;align-items:center">';
@@ -2872,7 +2872,7 @@ function printPage(){
   w.document.write('.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:500}');
   w.document.write('@media print{body{padding:10px}}');
   w.document.write('</style></head><body>');
-  w.document.write('<h2>'+title+'</h2><p class="sub">'+waEsc(schoolName())+' • '+new Date().toLocaleDateString()+'</p>');
+  w.document.write('<h2>'+title+'</h2><p class="sub">Universal Public High School • '+new Date().toLocaleDateString()+'</p>');
   w.document.write(content);
   w.document.write('</body></html>');
   w.document.close();
@@ -2944,7 +2944,7 @@ function renderCategories(){
   h+='</select></div>';
   h+='<div class="ff"><label>Or Enter Name</label><input id="cat_name" placeholder="Student name"></div>';
   h+='<div class="ff"><label>Class / Grade</label><select id="cat_grade"><option value="">Select</option>';
-  var grOpts=classList().slice();
+  var grOpts=['Nursery','LKG','UKG','KG','1','2','3','4','5','6','7','8','9','10','11','12'];
   for(var i=0;i<grOpts.length;i++)h+='<option value="'+grOpts[i]+'">'+(isNaN(Number(grOpts[i]))?grOpts[i]:'Grade '+grOpts[i])+'</option>';
   h+='</select></div>';
   h+='<div class="ff"><label>Section</label><select id="cat_section"><option value="">--</option><option>A</option><option>B</option><option>C</option></select></div>';
@@ -3044,7 +3044,7 @@ function editCategory(idx){
   h+='<form onsubmit="saveCategoryEdit(event,'+idx+')"><div class="fg" style="margin-bottom:0">';
   h+='<div class="ff"><label>Name</label><input id="ec_name" value="'+s(r.name).replace(/"/g,'&quot;')+'"></div>';
   h+='<div class="ff"><label>Class / Grade</label><select id="ec_grade">';
-  var grOpts=[''].concat(classList());if(s(r.grade)&&grOpts.indexOf(String(r.grade))<0)grOpts.push(String(r.grade));
+  var grOpts=['','Nursery','LKG','UKG','KG','1','2','3','4','5','6','7','8','9','10','11','12'];
   for(var i=0;i<grOpts.length;i++)h+='<option value="'+grOpts[i]+'"'+(String(r.grade)===grOpts[i]?' selected':'')+'>'+(grOpts[i]===''?'--':(isNaN(Number(grOpts[i]))?grOpts[i]:'Grade '+grOpts[i]))+'</option>';
   h+='</select></div>';
   h+='<div class="ff"><label>Section</label><select id="ec_section"><option value="">--</option>';
@@ -3330,7 +3330,7 @@ function printSingleStationery(idx){
   var price=n(r.price), paid=n(r.amount_paid), remaining=Math.max(0,price-paid);
   var w=window.open('','_blank','width=600,height=500');
   w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Stationery Receipt</title><style>body{font-family:sans-serif;max-width:480px;margin:40px auto;padding:20px;line-height:1.6}h2{margin-bottom:5px}.sub{color:#666;font-size:12px}table{width:100%;border-collapse:collapse;margin:16px 0}td,th{border:1px solid #ddd;padding:8px 10px;font-size:13px}th{background:#f5f5f5;text-align:left;width:140px}.total{font-weight:bold;font-size:15px}.due{color:#dc2626}.paid{color:#166534}</style></head><body>');
-  w.document.write('<h2>&#128218; Stationery Receipt</h2><p class="sub">'+waEsc(schoolName())+'</p>');
+  w.document.write('<h2>&#128218; Stationery Receipt</h2><p class="sub">Universal Public High School</p>');
   w.document.write('<table><tr><th>Student</th><td>'+s(r.student_name)+'</td></tr>');
   w.document.write('<tr><th>Class</th><td>'+(s(r.grade)?(isNaN(Number(r.grade))?s(r.grade):'Grade '+s(r.grade)):'--')+'</td></tr>');
   w.document.write('<tr><th>Subject / Book</th><td>'+s(r.subject)+'</td></tr>');
@@ -3364,7 +3364,7 @@ function printStationeryReport(){
   }
   var w=window.open('','_blank','width=800,height=700');
   w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Stationery Report</title><style>body{font-family:sans-serif;max-width:760px;margin:30px auto;padding:20px;line-height:1.5}h2{margin-bottom:0}.sub{color:#666;font-size:12px;margin-bottom:20px}table{width:100%;border-collapse:collapse;margin:12px 0;font-size:12px}td,th{border:1px solid #ddd;padding:6px 8px}th{background:#f5f5f5}.summary td{font-weight:bold;font-size:14px}.due{color:#dc2626}.paid{color:#166534}</style></head><body>');
-  w.document.write('<h2>&#128218; Stationery & Books Report</h2><p class="sub">'+waEsc(schoolName())+' &mdash; '+new Date().toISOString().split('T')[0]+'</p>');
+  w.document.write('<h2>&#128218; Stationery & Books Report</h2><p class="sub">Universal Public High School &mdash; '+new Date().toISOString().split('T')[0]+'</p>');
   w.document.write('<table><thead><tr><th>Class</th><th>Items</th><th>Total Price</th><th>Total Paid</th><th>Remaining</th></tr></thead><tbody>');
   var cls=Object.keys(classTotals).sort();
   for(var i=0;i<cls.length;i++){
@@ -3422,8 +3422,8 @@ function renderAdmissionForm(){
   for(var m=0;m<12;m++)h+='<option value="'+months[m]+'">'+months[m]+'</option>';
   h+='</select></div>';
   h+='<div class="ff"><label>Grade *</label><select id="af_grade" required><option value="">Select Grade</option>';
-  var gradeOptions=classList().slice();
-  var gradeLabels=gradeOptions.map(classLabel);
+  var gradeOptions=['Nursery','LKG','UKG','KG','1','2','3','4','5','6','7','8','9','10'];
+  var gradeLabels=['Nursery','LKG','UKG','KG','Grade 1','Grade 2','Grade 3','Grade 4','Grade 5','Grade 6','Grade 7','Grade 8','Grade 9','Grade 10'];
   for(var g=0;g<gradeOptions.length;g++)h+='<option value="'+gradeOptions[g]+'">'+gradeLabels[g]+'</option>';
   h+='</select></div>';
   h+='<div class="ff"><label>Section</label><select id="af_section"><option value="">Select</option><option value="A">A</option><option value="B">B</option></select></div>';
@@ -3526,7 +3526,7 @@ function printForm(){
   var photo=document.getElementById('af_photo').value;
   var win=window.open('','_blank','width=600,height=700');
   win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Admission - '+name+'</title><style>body{font-family:Arial,sans-serif;padding:30px;max-width:500px;margin:0 auto}h1{font-size:20px;text-align:center;margin-bottom:4px}h2{font-size:13px;text-align:center;color:#666;margin-bottom:20px}table{width:100%;border-collapse:collapse;font-size:13px}td{padding:8px 6px;border-bottom:1px solid #eee}td.lbl{color:#666;width:35%;font-size:11px;text-transform:uppercase}.photo-box{text-align:center;margin-bottom:16px}.photo-box img{width:80px;height:100px;border:1px solid #ddd;border-radius:6px;object-fit:cover}.footer{text-align:center;margin-top:30px;font-size:11px;color:#999}</style></head><body>');
-  win.document.write('<h1>'+waEsc(schoolName())+'</h1><h2>Student Admission Form</h2>');
+  win.document.write('<h1>Universal Public High School</h1><h2>Student Admission Form</h2>');
   if(photo)win.document.write('<div class="photo-box"><img src="'+photo+'"></div>');
   win.document.write('<table>');
   win.document.write('<tr><td class="lbl">Admission No</td><td><b>'+admno+'</b></td></tr>');
@@ -3539,7 +3539,7 @@ function printForm(){
   if(address)win.document.write('<tr><td class="lbl">Address</td><td>'+address+'</td></tr>');
   if(adate)win.document.write('<tr><td class="lbl">Admission Date</td><td>'+adate+'</td></tr>');
   win.document.write('</table>');
-  win.document.write('<div class="footer">Printed on '+new Date().toLocaleDateString()+'  '+waEsc(schoolName())+'</div>');
+  win.document.write('<div class="footer">Printed on '+new Date().toLocaleDateString()+'  Universal Public High School</div>');
   win.document.write('</body></html>');
   win.document.close();
   setTimeout(function(){win.print()},500);
@@ -3580,7 +3580,7 @@ function renderPeriods(){
   h+='<h2>🕒 Periods</h2><p class="sub">Select a class and date, then tap Attended or Missed for each subject. Subjects can be renamed, removed or added for each class.</p>';
   h+='<div class="tbar" style="margin-bottom:10px"><select class="fs" onchange="_perClass=this.value;perRefresh()"><option value="">Select Class</option>';
   for(var g=0;g<PER_GRADES.length;g++){var gl=PER_GRADES[g];h+='<option value="'+gl+'"'+(gl===_perClass?' selected':'')+'>'+classLabel(gl)+'</option>'}
-  h+='</select><input type="date" class="fs" value="'+_perDate+'" onchange="_perDate=this.value||perDay();perRefresh()"><button class="btn btn-sm" type="button" onclick="openSettings()">&#9881; Add / remove classes</button></div>';
+  h+='</select><input type="date" class="fs" value="'+_perDate+'" onchange="_perDate=this.value||perDay();perRefresh()"></div>';
   h+='<div class="tbar" style="margin-bottom:16px"><input type="text" id="perNew" class="fs" placeholder="New subject name" style="min-width:170px"> <label style="font-size:12px;color:#6B6B6B;display:flex;align-items:center;gap:6px"><input type="checkbox" id="perAll"> all classes</label> <button class="btn" type="button" onclick="perAddSubject()">➕ Add Subject</button></div>';
   h+='<div id="per-body">'+perBody()+'</div></div></div>';
   return h;
@@ -3649,7 +3649,6 @@ function perDelSubject(i){
 }
 
 function render(){
-  try{applySchool();syncClassLists()}catch(e){}
   var pg=document.getElementById('page');
   if(cur!=='Exam Results')window._exLegacy=false;
   if(cur==='Overview')pg.innerHTML=renderOverview();
@@ -3713,10 +3712,10 @@ function renderDailyAttendance(){
   h+='<div class="tbar" style="margin-bottom:20px">';
   // Class selector
   h+='<select class="fs" id="daclass" onchange="_attClass=this.value;loadDailyAtt()"><option value="">Select Class</option>';
-  var orderedGrades=classList().slice();
+  var orderedGrades=['Nursery','LKG','UKG','KG','1','2','3','4','5','6','7','8','9','10'];
   for(var g=0;g<orderedGrades.length;g++){
     var gl=orderedGrades[g];
-    var lbl=classLabel(gl);
+    var lbl=gl==='Nursery'?'Nursery':gl==='LKG'?'LKG':gl==='UKG'?'UKG':gl==='KG'?'KG':'Grade '+gl;
     h+='<option value="'+gl+'"'+(gl===_attClass?' selected':'')+'>'+lbl+'</option>';
   }
   // Date
@@ -3936,7 +3935,7 @@ function goTab(t){
 // ===== WHATSAPP FOR ABSENT STUDENTS =====
 var WA_CC='92'; // country code added to numbers starting with 0 (92 = Pakistan)
 var WA_DEF_TPL='Assalam-o-Alaikum {parent},\n\nYour child {name} ({class}) was ABSENT from Universal Public High School on {date}.\n\nPlease inform us of the reason.\n\nThank you,\nUniversal Public High School';
-function waTpl(){var t;try{t=localStorage.getItem('uphs_wa_tpl')||WA_DEF_TPL}catch(e){t=WA_DEF_TPL}return t.split('Universal Public High School').join(schoolName())}
+function waTpl(){try{return localStorage.getItem('uphs_wa_tpl')||WA_DEF_TPL}catch(e){return WA_DEF_TPL}}
 function waSaveTpl(v){try{localStorage.setItem('uphs_wa_tpl',v)}catch(e){}}
 function waAutoOn(){try{return localStorage.getItem('uphs_wa_auto')!=='0'}catch(e){return true}}
 function waAutoSet(on){try{localStorage.setItem('uphs_wa_auto',on?'1':'0')}catch(e){}}
@@ -3989,7 +3988,7 @@ function waSend(i){
   if(!ph){alert('Please enter a valid parent phone number for '+it.name);if(inp)inp.focus();return;}
   var st=waFindStudent(it.name,it.grade);
   if(st&&raw&&String(st.parent_phone||'')!==raw){st.parent_phone=raw;saveDB();}
-  var tpl=document.getElementById('waTpl').value||waTpl();
+  var tpl=document.getElementById('waTpl').value||WA_DEF_TPL;
   window.open('https://wa.me/'+ph+'?text='+encodeURIComponent(waMsg(tpl,it,st)),'_blank');
   it.sent=true;
   var b=document.querySelector('#waLine'+i+' .wa-send');
@@ -4201,7 +4200,7 @@ function ptTable(editable){
 }
 function renderPeriodTimetable(){
   var h='<div class="fade"><div class="af" style="max-width:100%">';
-  h+='<h2>&#128197; Teachers Period Time Table</h2><p class="sub">'+waEsc(schoolName())+' &middot; Tap any box to edit its subject and teacher. Tap a class name to rename or remove it.</p>';
+  h+='<h2>&#128197; Teachers Period Time Table</h2><p class="sub">Universal Public School (UPS) Landi Kotal &middot; Tap any box to edit its subject and teacher. Tap a class name to rename or remove it.</p>';
   h+='<div class="tbar" style="margin-bottom:14px"><button class="btn btn-sm" type="button" onclick="ptAddRow()" style="background:'+C.g+'">+ Add Class</button> ';
   h+='<button class="btn btn-sm" type="button" onclick="ptPrint()" style="background:'+C.a+'">&#128424; Print</button> ';
   h+='<label style="display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#6B6B6B;cursor:pointer"><input type="checkbox" '+(_ptClash?'checked':'')+' onchange="_ptClash=this.checked;render()"> Highlight clashes (same teacher in two classes at once)</label></div>';
@@ -4269,7 +4268,7 @@ function ptPrint(){
   var w=window.open('','_blank','width=1100,height=700');
   if(!w){alert('Please allow pop-ups to print');return}
   var h='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Teachers Period Time Table</title><style>@page{size:landscape;margin:10mm}body{font-family:system-ui,sans-serif;color:#111;margin:0;padding:8px}h1{font-size:18px;text-align:center;margin:0 0 2px}h2{font-size:14px;text-align:center;margin:0 0 12px;text-decoration:underline}table{border-collapse:collapse;width:100%;font-size:11px}th,td{border:1px solid #333;padding:6px 4px;text-align:center}th{background:#eee}td b{display:block}td span{display:block;font-size:10px}.ptc{font-weight:700;text-align:left}.ptb div{writing-mode:vertical-rl;transform:rotate(180deg);font-weight:700;letter-spacing:4px;margin:auto}</style></head><body>';
-  h+='<h1>'+waEsc((UX_NAME+' '+UX_PLACE).trim())+'</h1><h2>TEACHERS PERIOD TIME TABLE</h2>'+ptTable(false)+'</body></html>';
+  h+='<h1>UNIVERSAL PUBLIC SCHOOL (UPS) LANDI KOTAL</h1><h2>TEACHERS PERIOD TIME TABLE</h2>'+ptTable(false)+'</body></html>';
   w.document.write(h);w.document.close();setTimeout(function(){w.focus();w.print()},300);
 }
 
@@ -4377,7 +4376,7 @@ function uxCfg(){
 }
 function uxLogo(){return uxCfg().logo||UX_LOGO}
 function uxFmt(d){var x=/^(\d{4})-(\d{2})-(\d{2})/.exec(s(d));return x?x[3]+'-'+x[2]+'-'+x[1]:s(d)}
-function uxCls(g){g=s(g);return isNaN(Number(g))?g:'Class '+g}
+function uxCls(g){g=s(g);return ['Nursery','LKG','UKG','KG'].indexOf(g)>=0?g:'Class '+g}
 function uxClsSec(r){return uxCls(r.grade)+(s(r.section)?' - '+s(r.section):'')}
 function uxStuById(id){var a=DB['Students'];for(var i=0;i<a.length;i++)if(String(a[i].id)===String(id))return a[i];return null}
 function uxStuFor(r){
@@ -4529,7 +4528,7 @@ var _ex={cls:'',stu:'',term:UX_TERMS[0],session:uxSession(),month:'',rows:[],rem
 
 function exDefaultRows(cls){
   var subs=[];try{subs=perSubjects(cls).slice()}catch(e){subs=['English','Urdu','Maths','Pak Studies','Islamiat','Science']}
-  return subs.map(function(x){return {n:x,t:dmcDefTotal(),o:'',th:'',pr:''}});
+  return subs.map(function(x){return {n:x,t:100,o:'',th:'',pr:''}});
 }
 function exFind(stu,term,session){
   var a=uxList('ExamDMC');
@@ -4558,7 +4557,7 @@ function exPhoto(inp){
   var f=inp.files&&inp.files[0],sx=uxStuById(_ex.stu);if(!f||!sx)return;
   uxImg(f,360,function(d){sx.photo=d;saveDB();render()});
 }
-function exAddSub(){_ex.rows.push({n:'',t:dmcDefTotal(),o:''});render()}
+function exAddSub(){_ex.rows.push({n:'',t:100,o:''});render()}
 function exDelSub(i){_ex.rows.splice(i,1);render()}
 function exSum(){
   var el=document.getElementById('exSum');if(!el)return;
@@ -4596,7 +4595,7 @@ function renderExam(){
   var all=uxList('ExamDMC');
   var h='<div class="fade">';
   h+='<div class="uxbox"><div class="uxt">&#128221; Enter Marks &mdash; DMC (Detailed Marks Certificate)</div><div class="uxg">';
-  h+='<div class="ff"><label>Class <a href="#" onclick="openSettings();return false" style="font-size:10px;color:#7C3AED;margin-left:6px;text-decoration:none">+ add / remove</a></label><select onchange="exCls(this.value)">'+uxClassOpts(_ex.cls)+'</select></div>';
+  h+='<div class="ff"><label>Class</label><select onchange="exCls(this.value)">'+uxClassOpts(_ex.cls)+'</select></div>';
   h+='<div class="ff"><label>Exam</label><select onchange="exTerm(this.value)">'+UX_TERMS.map(function(t){return '<option'+(t===_ex.term?' selected':'')+'>'+t+'</option>'}).join('')+'</select></div>';
   h+='<div class="ff"><label>Session</label><input value="'+uxE(_ex.session)+'" onchange="exSes(this.value)" placeholder="2026-27"></div>';
   h+='<div class="ff"><label>Exam held in (month)</label><input value="'+uxE(_ex.month)+'" oninput="_ex.month=this.value" placeholder="e.g. October 2026"></div>';
@@ -4608,8 +4607,7 @@ function renderExam(){
     var sx=uxStuById(_ex.stu);
     h+='<div class="uxrow"><div style="width:54px;height:66px;border:1px solid #ddd;border-radius:8px;overflow:hidden;background:#f3f3f3;display:flex;align-items:center;justify-content:center;font-size:10px;color:#999">'+(sx&&sx.photo?'<img src="'+sx.photo+'" style="width:100%;height:100%;object-fit:cover">':'No photo')+'</div><label class="uxb ghost sm" style="cursor:pointer">&#128247; '+(sx&&sx.photo?'Change':'Add')+' student photo (shown on DMC)<input type="file" accept="image/*" style="display:none" onchange="exPhoto(this)"></label></div>';
     h+='<div class="uxnote" style="margin-top:8px"><b>'+uxE(sx?sx.name:'')+'</b> &middot; '+(_ex.editId?'<span style="color:#B45309">Result already saved &mdash; you are editing it</span>':'New result')+'</div>';
-    h+='<div class="uxrow" style="align-items:flex-end"><div class="ff" style="max-width:230px"><label>Total marks (same for all subjects)</label><input id="exAllT" type="number" inputmode="numeric" value="'+dmcDefTotal()+'"></div><button class="uxb sm" type="button" onclick="exSetAll(document.getElementById(\'exAllT\').value)">Apply to all subjects</button></div><div class="uxnote" style="margin-top:6px">You can also type a different Total for any single subject in the table below.</div>';
-    h+='<div style="overflow-x:auto;margin-top:8px"><table class="uxmk"><thead><tr><th>Subject</th><th style="width:92px">Total Marks</th><th style="width:84px">Theory</th><th style="width:84px">Practical</th><th style="width:92px">Obtained</th><th style="width:40px"></th></tr></thead><tbody>';
+    h+='<div style="overflow-x:auto;margin-top:8px"><table class="uxmk"><thead><tr><th>Subject</th><th style="width:80px">Total</th><th style="width:84px">Theory</th><th style="width:84px">Practical</th><th style="width:92px">Obtained</th><th style="width:40px"></th></tr></thead><tbody>';
     _ex.rows.forEach(function(r,i){
       h+='<tr><td><input value="'+uxE(r.n)+'" oninput="exRow('+i+',\'n\',this.value)" placeholder="Subject"></td>'+
          '<td><input type="number" inputmode="numeric" value="'+uxE(r.t)+'" oninput="exRow('+i+',\'t\',this.value)"></td>'+
@@ -5029,91 +5027,6 @@ function feeShow(rc){
   uxPreview('Receipt '+rc.receipt_no,uxDocHTML('Fee Receipt '+rc.receipt_no,body,'@page{margin:6mm}'));
 }
 
-
-// =====================================================================
-// ===== SCHOOL SETTINGS (editable name) / CLASS LIST / DMC TOTAL ======
-// =====================================================================
-var DEF_CLASSES=['Nursery','LKG','UKG','KG','1','2','3','4','5','6','7','8','9','10'];
-function schoolCfg(){
-  var c=DB['SchoolSettings'];
-  if(!c||typeof c!=='object'||Array.isArray(c)){c={};DB['SchoolSettings']=c}
-  if(!s(c.name))c.name='Universal Public High School';
-  if(c.place==null)c.place='Landikotal KPK';
-  return c;
-}
-function schoolName(){return s(schoolCfg().name)||'Universal Public High School'}
-function classList(){
-  var l=DB['ClassList'];
-  if(!Array.isArray(l)||!l.length){l=DEF_CLASSES.slice();DB['ClassList']=l}
-  return l;
-}
-function syncClassLists(){
-  var l=classList();
-  [PM_GRADES,PER_GRADES,STATIONERY_CLASSES].forEach(function(a){a.length=0;l.forEach(function(x){a.push(x)})});
-  Object.keys(gradeOrder).forEach(function(k){delete gradeOrder[k]});
-  l.forEach(function(x,i){gradeOrder[x]=i+1});
-}
-function applySchool(){
-  var c=schoolCfg(),nm=schoolName();
-  UX_NAME=nm.toUpperCase();UX_PLACE=s(c.place).toUpperCase();
-  var t=document.getElementById('schoolTitle');if(t&&t.textContent!==nm)t.textContent=nm;
-  var u=document.getElementById('schoolInitial');if(u)u.textContent=nm.charAt(0).toUpperCase();
-  document.title=nm+' - Management Dashboard';
-}
-function dmcDefTotal(){var c=DB['DMCSettings'];return (c&&n(c.defTotal)>0)?n(c.defTotal):100}
-function exSetAll(v){
-  v=n(v);if(v<=0){alert('Please enter the total marks, for example 100.');return}
-  if(!DB['DMCSettings']||typeof DB['DMCSettings']!=='object')DB['DMCSettings']={};
-  DB['DMCSettings'].defTotal=v;
-  _ex.rows.forEach(function(r){r.t=v});
-  saveDB();toast('Total marks set to '+v);render();
-}
-var _ssN=null,_ssP=null;
-function openSettings(keep){
-  var c=schoolCfg(),l=classList(),i;
-  if(!keep){_ssN=c.name;_ssP=c.place}
-  var h='<button class="mx" onclick="closem()">&times;</button><h3>&#9881;&#65039; School Settings</h3><div style="max-height:74vh;overflow-y:auto;padding-right:4px">';
-  h+='<div class="ff"><label>School name</label><input id="ss_name" value="'+uxE(_ssN)+'" oninput="_ssN=this.value"></div>';
-  h+='<div class="ff" style="margin-top:10px"><label>Place (shown under the name on DMC, certificates &amp; cards)</label><input id="ss_place" value="'+uxE(_ssP)+'" oninput="_ssP=this.value"></div>';
-  h+='<div style="margin-top:12px"><button class="uxb" type="button" onclick="saveSchoolName()">&#10004; Save school name</button></div>';
-  h+='<div style="border-top:1px solid #E5E7EB;margin:18px 0 10px"></div><div style="font-weight:800;font-size:14px;margin-bottom:4px">Classes</div>';
-  h+='<div style="font-size:11px;color:#6B6B6B;margin-bottom:8px">Add or remove classes. Use arrows to change the order (promotion goes to the next class in this order). Type a number like 11 for &ldquo;Grade 11&rdquo;, or any name like Prep.</div>';
-  h+='<div style="display:flex;gap:8px;margin-bottom:10px"><input id="sc_new" class="fs" style="flex:1;min-width:0" placeholder="New class name (e.g. 11 or Prep)" onkeydown="if(event.key===\'Enter\'){scAdd();return false}"><button class="uxb" type="button" onclick="scAdd()">+ Add</button></div>';
-  for(i=0;i<l.length;i++){
-    var cnt=DB['Students'].filter(function(x){return String(x.grade)===String(l[i])}).length;
-    h+='<div style="display:flex;align-items:center;gap:6px;padding:7px 0;border-bottom:1px solid #F0F0F0"><b style="flex:1;font-size:13px">'+uxE(classLabel(l[i]))+'</b><span style="font-size:10px;color:#9B9B9B">'+cnt+' student'+(cnt===1?'':'s')+'</span>'
-      +'<button class="uxb sm ghost" type="button" onclick="scMove('+i+',-1)"'+(i===0?' disabled':'')+'>&uarr;</button><button class="uxb sm ghost" type="button" onclick="scMove('+i+',1)"'+(i===l.length-1?' disabled':'')+'>&darr;</button>'
-      +'<button class="uxb sm ghost" type="button" style="color:#DC2626" onclick="scDel('+i+')">Remove</button></div>';
-  }
-  h+='</div>';
-  document.getElementById('mc').innerHTML=h;
-  document.getElementById('mo').style.display='flex';
-}
-function saveSchoolName(){
-  var nm=s(document.getElementById('ss_name').value);
-  if(!nm){alert('School name cannot be empty.');return}
-  var c=schoolCfg();c.name=nm;c.place=s(document.getElementById('ss_place').value);
-  saveDB();applySchool();closem();toast('School name saved');render();
-}
-function scAfter(){saveDB();syncClassLists();render();openSettings(true)}
-function scAdd(){
-  var el=document.getElementById('sc_new'),v=s(el&&el.value),l=classList();
-  if(!v){alert('Type the class name first.');return}
-  for(var i=0;i<l.length;i++)if(String(l[i]).toLowerCase()===v.toLowerCase()){alert('This class already exists.');return}
-  l.push(v);toast('Class added');scAfter();
-}
-function scDel(i){
-  var l=classList(),g=l[i];if(g==null)return;
-  var cnt=DB['Students'].filter(function(x){return String(x.grade)===String(g)}).length;
-  var msg='Remove '+classLabel(g)+'?'+(cnt?'\n\n'+cnt+' student(s) are in this class. They will stay saved, but will not appear in class lists until you add this class again or move them to another class.':'');
-  if(!confirm(msg))return;
-  l.splice(i,1);toast('Class removed');scAfter();
-}
-function scMove(i,d){
-  var l=classList(),j=i+d;if(j<0||j>=l.length)return;
-  var t=l[i];l[i]=l[j];l[j]=t;scAfter();
-}
-
 init();
 
 // ===== INSTALLABLE APP (PWA) =====
@@ -5123,7 +5036,7 @@ document.getElementById('installBtn').onclick=function(){if(!_dip)return;_dip.pr
 window.addEventListener('appinstalled',function(){document.getElementById('installBtn').style.display='none'});
 if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}
 </script>
-<div id="appVer">v2026-10-20a</div>
+<div id="appVer">v2026-10-17a</div>
 <script src="config.js"></script>
 <script src="sync.js"></script>
 </body>
